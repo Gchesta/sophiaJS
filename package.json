@@ -1,0 +1,20 @@
+{
+  "name": "sophiajs",
+  "version": "1.0.0",
+  "description": "A command Line application to allocate rooms to fellows and staff",
+  "main": "index.js",
+  
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "sophiaJS"
+  },
+  "keywords": [
+    "Space",
+    "Allocation"
+  ],
+  "author": "Achesa Makhambala",
+  "license": "MIT"
+}
