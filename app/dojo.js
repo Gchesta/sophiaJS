@@ -1,6 +1,6 @@
 var objects = require ("./objects")
 
-const dojo ={
+const dojo = {
 rooms:[],
 persons:[],
 addPerson: function(firstName, surname, category, accomodation="N"){
@@ -11,7 +11,6 @@ addPerson: function(firstName, surname, category, accomodation="N"){
     if (personIsInvalid){
         return personIsInvalid;
     }
-
     var idno = String(this.persons.length + 1);
     if (category === "FELLOW"){
         var newPerson = Object.create(objects.Fellow);
@@ -125,11 +124,16 @@ printRoom: function(roomName){
     if (room == undefined){
         return `There is no room with the name '${roomName}'`;
     }
-    room = room[0];
     var occupants = room.occupants.map(occupant => occupant.name);
-    var output = `Room Name:    ${room.name}`
-
-
+    var output = `Room Name:    ${room.name}\n`;
+    var len = occupants.length;
+    if (len === 0){
+        return `${roomName} is currently unoccupied`
+    }
+    for(var count = 0; count < len; count++){
+        output += (occupants[count] + "\n");
+    }
+    return output
 }
 
 } 

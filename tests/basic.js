@@ -151,6 +151,40 @@ test("Rooms are created from their prototypes", function(assert){
      assert.end();
 });
 
+//Testing printRoom function
+test("printRoom rejects non-existent room", function(assert){
+     reset()
+     let actual = dojo.printRoom("Marley");
+     let expected = "There is no room with the name 'Marley'"
+     let msg = "printRoom should reject a non-existent room name"
+     assert.equal(actual, expected, msg);
+     assert.end();
+});
+
+test("printRoom alerts on an empty room", function(assert){
+     reset()
+     dojo.createRoom("Marley", "Office");
+     let actual = dojo.printRoom("Marley")
+     let expected = "Marley is currently unoccupied"
+     let msg = "printRoom should alert on empty room"
+     assert.equal(actual, expected, msg);
+     assert.end();
+});
+
+test("printRoom returns the required string as output", function(assert){
+     reset()
+     dojo.createRoom("Marley", "Office");
+     dojo.addPerson("Albert", "Greens", "Fellow", "Y");
+     dojo.addPerson("Bilfil", "Spoons", "Fellow");
+     let actual = dojo.printRoom("Marley")
+     let heading = "Room Name:    Marley\n"
+     let occupants = "Albert Greens\nBilfil Spoons\n"
+     let expected = heading + occupants
+     let msg = "printRoom returns the required string as output"
+     assert.equal(actual, expected, msg);
+     assert.end();
+});
+
 
 
 
