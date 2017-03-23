@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "A command Line application to allocate rooms to fellows and staff",
   "main": "index.js",
+  "devDependencies": {
+    "tape": "4.6.3"
+  },
   
   "scripts": {
-    "test": "tape"
+    "test": "node test/*.js"
   },
   "repository": {
     "type": "git",
