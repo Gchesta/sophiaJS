@@ -5,7 +5,7 @@
   "main": "index.js",
   
   "scripts": {
-    "test": "test"
+    "test": "tape"
   },
   "repository": {
     "type": "git",
