@@ -2,7 +2,7 @@
 const LivingSpace = {
     setUp: function(name){
         this.name = name;
-        this.capacity = 6;
+        this.capacity = 4;
         this.category = "Living Space";
         this.occupants = [];
     }
@@ -11,7 +11,7 @@ const LivingSpace = {
 const Office = {
     setUp: function(name){
         this.name = name;
-        this.capacity = 4;
+        this.capacity = 6;
         this.category = "Office";
         this.occupants = [];
     }

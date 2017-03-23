@@ -1,3 +1,4 @@
+var fs = require('fs');
 var objects = require ("./objects")
 
 const dojo = {
@@ -134,6 +135,61 @@ printRoom: function(roomName){
         output += (occupants[count] + "\n");
     }
     return output
+},
+printAllocations: function(filename=undefined){
+    var headingOffice = "\nALLOCATIONS - OFFICES\n"
+    var subheading = "\nROOM NAME \t\tROLE"
+    var headingLivingspace = "\nALLOCATIONS - LIVING SPACES\n"
+    var officesString = ""
+    var livingString = ""
+    var officeWithOccupants = dojo.rooms.filter(
+        office => (office.category == "Office" && office.capacity < 6));
+    for (let office of officeWithOccupants){
+        officesString += (`${office.name}\n=============================\n`) + 
+        (office.occupants.map(occupant =>
+        `${occupant.name}\t\t${occupant.category}`)).join("\n");
+    }
+    var livingWithOccupants = dojo.rooms.filter(
+        living => (living.category == "Living Space" && living.capacity < 4));
+    for (let living of livingWithOccupants){
+        livingString += (`${living.name}\n=============================\n`) + 
+        (living.occupants.map(occupant =>
+        `${occupant.name}\t\t${occupant.category}`)).join("\n");
+    }
+
+    var output = (`${headingOffice}\n${subheading}\n${officesString}\n
+        ${headingLivingspace}\n${subheading}\n${livingString}`);
+    if (filename===undefined){
+        console.log(output);
+        return "...complete";
+    }
+    fs.writeFile(filename, output);
+    console.log(`Successfully saved the information in ${filename}`);
+    
+},
+
+printUnallocated: function(filename=undefined){
+    var headingOffice = "\nUNALLOCATED - OFFICES"
+    var headingLivingspace = "\nUNALLOCATED - LIVING SPACES"
+    var subHeading = "\nPERSON NAME\t\tROLE\n"
+    var unallocatedOffice = dojo.persons.filter(
+        person => person.office === "Unallocated").map(
+            person => `${person.name}\t\t${person.category}\n`
+        ).join("\n")
+    var unallocatedAccomodation = dojo.persons.filter(
+        person => person.accomodation === "Unallocated").map(
+            person => `${person.name}\t\t${person.category}\n`
+        ).join("\n")
+    var output = (`${headingOffice}${subHeading}${unallocatedOffice}
+        ${headingLivingspace}${subHeading}${unallocatedAccomodation}`)
+    if (filename===undefined){
+        console.log(output);
+        return "...complete";
+    }else{
+        fs.writeFile(filename, output);
+        console.log(`Successfully saved the information in ${filename}`);
+    }
+    
 }
 
 } 
