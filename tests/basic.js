@@ -1,7 +1,8 @@
 //test dojo
-var test = require('tape').test
-var dojo = require("../app/dojo")
-var objects = require("../app/objects")
+var test = require('tape').test;
+var dojo = require("../app/dojo");
+var objects = require("../app/objects");
+var fs = require("fs");
 
 function reset(){
     dojo.rooms = [];
@@ -184,8 +185,48 @@ test("printRoom returns the required string as output", function(assert){
      assert.equal(actual, expected, msg);
      assert.end();
 });
+//Testing printAllocations function
+test("printAllocations Successfully prints", function(assert){
+     reset()
+     dojo.createRoom("Marley", "Office");
+     dojo.createRoom("Tipy", "LIVING")
+     dojo.addPerson("Albert", "Greens", "Fellow", "Y");
+     let actual = dojo.printAllocations();
+     let expected = "...complete"
+     let msg = "printAllocations should excecute Successfully"
+     assert.equal(actual, expected, msg);
+     assert.end();
+});
 
+test("printAllocations with text file", function(assert){
+     reset()
+     dojo.createRoom("Marley", "Office");
+     dojo.createRoom("Tipy", "LIVING")
+     dojo.addPerson("Albert", "Greens", "Fellow", "Y");
+     dojo.printAllocations("myfile.txt");
+     let msg = "printAllocations should output a text file"
+     assert.true(fs.existsSync("myfile.txt"), msg);
+     assert.end();
+});
+//Testing printUnallocations function
+test("printUnallocated Successfully prints", function(assert){
+     reset()
+     dojo.addPerson("Albert", "Greens", "Fellow", "Y");
+     let actual = dojo.printUnallocated();
+     let expected = "...complete"
+     let msg = "printUnallocated should excecute Successfully"
+     assert.equal(actual, expected, msg);
+     assert.end();
+});
 
+test("printUnallocated with text file", function(assert){
+     reset()
+     dojo.addPerson("Albert", "Greens", "Fellow", "Y");
+     dojo.printUnallocated("myfile2.txt");
+     let msg = "printUnallocated shoukd output a text file"
+     assert.true(fs.existsSync("myfile2.txt"), msg);
+     assert.end();
+});
 
 
 
