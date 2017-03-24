@@ -216,7 +216,7 @@ test("printAllocations Successfully prints", function(assert){
      assert.end();
 });
 
-test("printAllocations with text file", function(assert){
+/*test("printAllocations with text file", function(assert){
      reset()
      dojo.createRoom("Marley", "Office");
      dojo.createRoom("Tipy", "LIVING");
@@ -225,7 +225,7 @@ test("printAllocations with text file", function(assert){
      let msg = "printAllocations should output a text file";
      assert.true(fs.existsSync("myfile.txt"), msg);
      assert.end();
-});
+});*/
 //Testing printUnallocations function
 test("printUnallocated Successfully prints", function(assert){
      reset()
@@ -237,14 +237,14 @@ test("printUnallocated Successfully prints", function(assert){
      assert.end();
 });
 
-test("printUnallocated with text file", function(assert){
+/*test("printUnallocated with text file", function(assert){
      reset()
      dojo.addPerson("Albert", "Greens", "Fellow", "Y");
      dojo.printUnallocated("myfile2.txt");
      let msg = "printUnallocated should output a text file";
      assert.true(fs.existsSync("myfile2.txt"), msg);
      assert.end();
-});
+});*/
 
 //Testing reallocate person function
 test("reallocte rejects non-existent idno", function(assert){
