@@ -101,7 +101,7 @@ createRoom: function(name, category){
         var newRoom = Object.create(objects.LivingSpace);
         newRoom.setUp(name)
     }
-    dojo.rooms.push(newRoom)
+    this.rooms.push(newRoom)
     return (`Successfully created ${category} ${name}.`)
 },
 
@@ -142,14 +142,14 @@ printAllocations: function(filename=undefined){
     var headingLivingspace = "\nALLOCATIONS - LIVING SPACES\n"
     var officesString = ""
     var livingString = ""
-    var officeWithOccupants = dojo.rooms.filter(
+    var officeWithOccupants = this.rooms.filter(
         office => (office.category == "Office" && office.capacity < 6));
     for (let office of officeWithOccupants){
         officesString += (`${office.name}\n=============================\n`) + 
         (office.occupants.map(occupant =>
         `${occupant.name}\t\t${occupant.category}`)).join("\n");
     }
-    var livingWithOccupants = dojo.rooms.filter(
+    var livingWithOccupants = this.rooms.filter(
         living => (living.category == "Living Space" && living.capacity < 4));
     for (let living of livingWithOccupants){
         livingString += (`${living.name}\n=============================\n`) + 
@@ -172,11 +172,11 @@ printUnallocated: function(filename=undefined){
     var headingOffice = "\nUNALLOCATED - OFFICES"
     var headingLivingspace = "\nUNALLOCATED - LIVING SPACES"
     var subHeading = "\nPERSON NAME\t\tROLE\n"
-    var unallocatedOffice = dojo.persons.filter(
+    var unallocatedOffice = this.persons.filter(
         person => person.office === "Unallocated").map(
             person => `${person.name}\t\t${person.category}\n`
         ).join("\n")
-    var unallocatedAccomodation = dojo.persons.filter(
+    var unallocatedAccomodation = this.persons.filter(
         person => person.accomodation === "Unallocated").map(
             person => `${person.name}\t\t${person.category}\n`
         ).join("\n")
@@ -189,9 +189,49 @@ printUnallocated: function(filename=undefined){
         fs.writeFile(filename, output);
         console.log(`Successfully saved the information in ${filename}`);
     }
-    
-}
+},
 
+reallocate: function(idno, roomName){
+    roomName = this.toTitleCase(roomName);
+    var person = this.persons.find(person => person.idno === idno);
+    if (person === undefined){
+        return "You have entered an invalid of non-existent idno";
+    }
+    var room = this.rooms.find(room => room.name === roomName);
+    if (room === undefined){
+        return "You have entered a non-existing room";
+    }
+    if (room.capacity === 0){
+        return `${room.name} is currently full`;
+    }
+    if (person.accomodation == room ||person.office == room){
+        return "You are trying to rellocate a person to his current room";
+    }
+    if (room.category === "Living Space" && person.category === "Staff"){
+        return "Invalid request. Staff do not have accomodation";
+    }
+    if (room.category === "Office"){
+        var current = person.office;
+        person.office = room;
+        room.occupants.push(person);
+        if (current !== "Unallocated"){
+            var occ = current.occupants;
+            occ.splice(occ.indexOf(person), 1)
+        }
+
+    }else{
+        var current = person.accomodation;
+        person.accomodation = room;
+        room.occupants.push(person);
+        if (current !== "Unallocated"){
+            var occ = current.occupants;
+            occ.splice(occ.indexOf(person), 1)
+        }
+    return `Successfully rellocated ${person.name} to room ${roomName};`
+    }
+
+}
+    
 } 
 
 module.exports = dojo
